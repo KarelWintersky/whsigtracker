@@ -1,0 +1,9 @@
+.is_changed {
+    font-size: smaller;
+}
+.changed_false {
+    color: transparent;
+}
+.changed_true {
+    color: red;
+}

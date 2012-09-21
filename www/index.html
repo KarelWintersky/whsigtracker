@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link type="text/css" rel="stylesheet" media="all" href="sigtracker.css" />
+    <title>ORDI Tools: WH Signal tracker</title>
+</head>
+<body>
+
+<table width="100%">
+    <tr>
+        <td width="140">&nbsp;</td>
+        <td>
+            <!-- This is MAIN container -->
+            <fieldset>
+                <legend title="">J171404 21 сентября 2012</legend>
+                <ul id="sig_list">
+                    <li>
+                        <input class="sig_id" type="text" size="8">
+                        Type:
+                        <select name="sig_type" class="contaner_sig_type">
+                            <option value="">Ladar</option>
+                            <option value="">Gravimetric</option>
+                            <option value="">Magnetometric</option>
+                            <option value="">Radar</option>
+                            <option value="">K162</option>
+                            <option value="" selected>Wormhole</option>
+                        </select>
+                        Subtype:
+                        <select name="sig_subtype" class="container_sig_subtype">
+                            <option>* -> 3</option>
+                            <option>* -> high</option>
+                            <option>* -> low</option>
+                            <option>* -> 0.0</option>
+                            <option>* -> c1</option>
+                            <option>* -> c2</option>
+                            <option>* -> c3</option>
+                            <option>* -> c4</option>
+                            <option>* -> c5</option>
+                            <option selected>* -> c6</option>
+                        </select>
+                        Comment:
+                        <input type="text" size="30" class="sig_comment">
+                        <span class="is_changed changed_true">*</span>
+                        <button>√</button>
+                        <button>X</button>
+                    </li>
+                    <li>
+                        <input class="sig_id" type="text" size="8">
+                        <button>Add new signal!</button>
+                    </li>
+                </ul>
+            </fieldset>
+        </td>
+        <!-- This is END of MAIN container-->
+        <td width="140">&nbsp;</td>
+    </tr>
+</table>
+
+</body>
+</html>
