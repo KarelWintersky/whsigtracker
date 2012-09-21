@@ -14,10 +14,10 @@ $currentSolarSystem = [
 $containerMainList = [
     't:ladar' => 'Ladar',
     't:radar' => 'Radar',
-    't:magneto' => 'Magnetometric',
+    't:magn' => 'Magnetometric',
     't:grav' => 'Gravimetric',
     't:k162' => 'K162',
-    't:wormhole' => 'Wormhole',
+    't:wh' => 'Wormhole',
 ];
 $containerLadarList = [
     'l:token' => 'Token Perimeter Reservoir',
