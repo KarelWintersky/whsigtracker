@@ -1,6 +1,10 @@
 <?php
 namespace example;
-$map = array('signal', 'type', 'class', 'name', 'power', 'distance');
+
+function getRandomNumber()
+{
+    return 4;// chosen by fair dice roll.
+}            // guaranteed to be random.
 
 function print_r($var,$flag=FALSE)
 {
@@ -11,9 +15,9 @@ function print_r($var,$flag=FALSE)
     else return $ret;
 }
 
-function parser($data,$map)
+function parser($data)
 {
-    // $strs = explode("\r\n",$data);
+    $map = array('id', 'scan group', 'group', 'type', 'power', 'distance');
     $lines = preg_split('/\\r\\n?|\\n/', $data);
     foreach ($lines as $n => $str)
     {
@@ -28,7 +32,7 @@ function parser($data,$map)
 }
 
 $example = (isset($_POST['parsedata'])) ? $_POST['parsedata'] : '';
-$parsed = (isset($_POST['parsedata']) && isset($_POST['parseit'])) ? parser($example,$map) : '';
+$parsed = (isset($_POST['parsedata']) && isset($_POST['parseit'])) ? parser($example) : '';
 ?>
 
 <!DOCTYPE html>
