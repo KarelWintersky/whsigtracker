@@ -45,6 +45,33 @@ function parser_roids($data)
     return print_r($roids);
 }
 
+function parser_jitonomic_space_remover($data)
+{
+    $lines = preg_split('/\\r\\n?|\\n/', $data); // массив строк
+    $minerals = array();
+    foreach($lines as $mineral_str)
+    {
+        $mineral_data = explode("\t",$mineral_str);
+        $key = $mineral_data[0];
+        $count = str_replace(' ','',$mineral_data[1]); // 1 - counnt
+        $minerals[$key] += (int)$count; // count
+        // remove "," from number - http://www.cyberforum.ru/php-beginners/thread435327.html
+    }
+    return print_r($minerals);
+}
+
+function parser_prepare_signals($data)
+{
+    $lines = preg_split('/\\r\\n?|\\n/', $data); // массив строк
+    $ret = '';
+    foreach($lines as $a_signal)
+    {
+        $the_signal = explode("\t",$a_signal);
+        $ret .= $the_signal[0]."<br>\r\n";
+    }
+    return $ret;
+}
+
 
 $example = (isset($_POST['parsedata'])) ? $_POST['parsedata'] : '';
 $parsed = (isset($_POST['parsedata']) && isset($_POST['parseit'])) ? parser($example) : '';
@@ -52,6 +79,10 @@ if (isset($_POST['parse_signals']))
     $parsed = parser_signals($example);
 elseif (isset($_POST['parse_mining']))
     $parsed = parser_roids($example);
+elseif (isset($_POST['parse_jitomineral']))
+    $parsed = parser_jitonomic_space_remover($example);
+elseif (isset($_POST['parse_prep_signals']))
+    $parsed = parser_prepare_signals($example);
 else $parsed = '';
 
 
@@ -68,6 +99,8 @@ else $parsed = '';
 <textarea cols="80" rows="6" resizeable name="parsedata"><? echo $example; ?></textarea><br>
     <input type="submit" name="parse_signals" value="Parse signals >>> ">
     <input type="submit" name="parse_mining" value="Parse Asteroid Data >>> ">
+    <input type="submit" name="parse_jitomineral" value="Jitonomic export space remove >>> "><br>
+    <input type="submit" name="parse_prep_signals" value="Prepare signals >>">
     <input type="reset" value="Clear data!">
 </form>
 <hr>
