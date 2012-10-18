@@ -1,6 +1,32 @@
 <?php
 namespace example;
 
+class SimpleParser
+{
+    private $lines = array();
+
+    private function __constructor($data)
+    {
+        $this->lines = preg_split('/\\r\\n?|\\n/', $data);
+    }
+
+    public static function text2lines($text)
+    {
+        return preg_split('/\\r\\n?|\\n/', $text);
+    }
+
+    public static function untab($str)
+    {
+        return explode("\t",$str);
+    }
+
+    public function simple()
+    {
+
+
+    }
+}
+
 function getRandomNumber()
 {
     return 4;// chosen by fair dice roll.
@@ -13,6 +39,18 @@ function print_r($var,$flag=FALSE)
     $ret.= '</pre>';
     if ($flag) echo $ret;
     else return $ret;
+}
+
+function parser_simple($data)
+{
+    $lines = SimpleParser::text2lines($data);
+    $ret = array();
+    foreach ($lines as $n => $str)
+    {
+        $a_line = SimpleParser::untab($str);
+        $ret[$n] = $a_line;
+    }
+    return print_r($ret);
 }
 
 function parser_signals($data)
@@ -72,9 +110,28 @@ function parser_prepare_signals($data)
     return $ret;
 }
 
+function parser_prepare_signals_advanced($data)
+{
+    $lines = preg_split('/\\r\\n?|\\n/', $data); // массив строк
+    $signals = array();
+    $ret = '';
+    foreach($lines as $a_signal)
+    {
+        $the_signal = explode("\t",$a_signal);
+        $key = $the_signal[0];
+        $power = $the_signal[4];
+        $signals[$key] = $power;
+
+    }
+    foreach ($signals as $a_signal => $a_power) {
+        $ret.= $a_signal . " [".$a_power."] :  <br>\r\n";
+    }
+    return $ret;
+}
+
+
 
 $example = (isset($_POST['parsedata'])) ? $_POST['parsedata'] : '';
-$parsed = (isset($_POST['parsedata']) && isset($_POST['parseit'])) ? parser($example) : '';
 if (isset($_POST['parse_signals']))
     $parsed = parser_signals($example);
 elseif (isset($_POST['parse_mining']))
@@ -83,6 +140,10 @@ elseif (isset($_POST['parse_jitomineral']))
     $parsed = parser_jitonomic_space_remover($example);
 elseif (isset($_POST['parse_prep_signals']))
     $parsed = parser_prepare_signals($example);
+elseif (isset($_POST['parse_prep_signals_adv']))
+    $parsed = parser_prepare_signals_advanced($example);
+elseif (isset($_POST['parse_simple']))
+    $parsed = parser_simple($example);
 else $parsed = '';
 
 
@@ -96,15 +157,20 @@ else $parsed = '';
 </head>
 <body>
 <form action="<? echo $SCRIPT_NAME; ?>" method="post">
-<textarea cols="80" rows="6" resizeable name="parsedata"><? echo $example; ?></textarea><br>
-    <input type="submit" name="parse_signals" value="Parse signals >>> ">
-    <input type="submit" name="parse_mining" value="Parse Asteroid Data >>> ">
-    <input type="submit" name="parse_jitomineral" value="Jitonomic export space remove >>> "><br>
-    <input type="submit" name="parse_prep_signals" value="Prepare signals >>">
-    <input type="reset" value="Clear data!">
+<textarea cols="80" rows="6" id="example" name="parsedata"><? echo $example; ?></textarea><br>
+    <input type="button" value="Clear data!" onclick="this.form.reset()">
+    <fieldset>
+        <legend>Подсчеты</legend>
+        <input type="submit" name="parse_mining" value="Gravimetric Survey Scan >>> ">
+        <input type="submit" name="parse_prep_signals_adv" value="Prepare signals with %>>">
+    </fieldset>
+    <fieldset>
+        <legend>Редкоиспользуемые парсеры</legend>
+        <input type="submit" name="parse_signals" value="Printr signals >>> ">
+        <input type="submit" name="parse_jitomineral" value="Jitonomic export space remove >>> ">
+        <input type="submit" name="parse_prep_signals" value="Prepare signals >>">
+        <input type="submit" name="parse_simple" value="Simple print_r() >>">
+    </fieldset>
 </form>
 <hr>
 <?php echo $parsed; ?>
-<form>
-
-</form>

@@ -3,10 +3,13 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link type="text/css" rel="stylesheet" media="all" href="sigtracker.css" />
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="sigtracker.js"></script>
     <title>ORDI Tools: WH Signal tracker</title>
 </head>
 <body>
-
+[ <a href="parseit.php" target="_new">Simple data parser</a> ]
+[ <a href="parsewh.php" target="_new">WH signals parser</a> ]
 <table width="100%">
     <tr>
         <td width="140">&nbsp;</td>
@@ -18,7 +21,7 @@
                     <li>
                         <input class="sig_id" type="text" size="8">
                         Type:
-                        <select name="sig_type" class="contaner_sig_type">
+                        <select name="new" class="contaner_sig_type">
                             <option value="t:ladar">Ladar</option>
                             <option value="t:grav">Gravimetric</option>
                             <option value="t:magn">Magnetometric</option>
@@ -53,7 +56,8 @@
             </fieldset>
         </td>
         <!-- This is END of MAIN container-->
-        <td width="140"><a href="parseit.php" target="_new">Simple data parser</a></td>
+        <td width="140">
+        </td>
     </tr>
 </table>
 
