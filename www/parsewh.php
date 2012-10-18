@@ -49,10 +49,19 @@ foreach ($all_signals as $a_signal)
     <input type="button" value="Clear data!" onclick="this.form.reset()">
     <input type="submit" name="parse_wh" value="Analyze scan data">
 </form>
-Total 100% signals:   <font color="red"><?php echo $anomaly_count; ?></font><br
+<?php if (!$anomaly_count) exit; ?>
+
+<table border="0">
+    <tr>
+        <th>Total 100% signals</th>
+        <th width="50" style="color:red"><?php echo $anomaly_count; ?></th>
+    </tr>
 <?php
-foreach ($anomaly as $a_count=>$a_name)
-    echo " '$a_name' : $a_count <br>";
+    foreach ($anomaly as $a_name=>$a_count)
+        echo "<tr><td>$a_name</td><th> $a_count </th></tr>";
+?>
+</table>
+<?php
 $ret = '';
 echo '<hr>';
 foreach ($signals as $a_signal => $a_power) {
