@@ -46,10 +46,12 @@ foreach ($all_signals as $a_signal)
     <title>Parse test</title>
 </head>
 <body>
+<small>Запустите бортовой сканер. Киньте пробку (или не кидайте). Нажмите скан. В окне результатов скана нажмите<br>
+Ctrl-A, Ctrl-C... и в окне ниже нажмите: Ctrl-V . Потом нежно нажмите кнопочку "Анализ" и наслаждайтесь. </small>
 <form action="<? echo $SCRIPT_NAME; ?>" method="post">
     <textarea cols="80" rows="9" id="example" name="data"><? echo $data; ?></textarea><br>
     <input type="button" value="Clear data!" onclick="this.form.reset()">
-    <input type="submit" name="parse_wh" value="Analyze scan data">
+    <input type="submit" name="parse_wh" value="Анализ">
 </form>
 <?php if (!$anomaly_count) exit; ?>
 
