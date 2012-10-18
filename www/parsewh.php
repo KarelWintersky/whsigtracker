@@ -16,6 +16,7 @@ $anomaly = array(); // массив для 100%-ых сигналов (аном�
 $anomaly_count = 0;
 
 $signals = array();
+$signals_count = 0;
 
 foreach ($all_signals as $a_signal)
 {
@@ -32,6 +33,7 @@ foreach ($all_signals as $a_signal)
         $key = $sig[0];
         $power = $sig[4];
         $signals[$key] = $power;
+        $signals_count++;
         };break;
     } //case
 }
@@ -53,7 +55,7 @@ foreach ($all_signals as $a_signal)
 
 <table border="0">
     <tr>
-        <th>Total 100% signals</th>
+        <td>Total 100% signals</td>
         <th width="50" style="color:red"><?php echo $anomaly_count; ?></th>
     </tr>
 <?php
@@ -64,6 +66,7 @@ foreach ($all_signals as $a_signal)
 <?php
 $ret = '';
 echo '<hr>';
+echo 'Total signatures: <span style="color:red">'.$signals_count.'</span><br>';
 foreach ($signals as $a_signal => $a_power) {
     $ret.= $a_signal . " [".$a_power."] :  <br>\r\n";
 }
