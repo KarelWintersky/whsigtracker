@@ -50,7 +50,8 @@ foreach ($all_signals as $a_signal)
 Ctrl-A, Ctrl-C... и в окне ниже нажмите: Ctrl-V . Потом нежно нажмите кнопочку "Анализ" и наслаждайтесь. </small>
 <form action="<? echo $SCRIPT_NAME; ?>" method="post">
     <textarea cols="80" rows="9" id="example" name="data"><? echo $data; ?></textarea><br>
-    <input type="button" value="Clear data!" onclick="this.form.reset()">
+    <input type="button" value="Clear data!" onclick="this.form.reset();document.getElementById('example').value='';">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <input type="submit" name="parse_wh" value="Анализ">
 </form>
 <?php if (!$anomaly_count) exit; ?>
