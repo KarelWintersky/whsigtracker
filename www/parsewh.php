@@ -12,8 +12,8 @@ $data = (isset($_POST['data'])) ? $_POST['data'] : '';
 $map = array('id', 'scan group', 'group', 'type', 'power', 'distance');
 $all_signals = preg_split('/\\r\\n?|\\n/', $data); // все сигналы в форме асс.массивов
 
-$anomaly = array(); // массив для 100%-ых сигналов (аномалек), точнее для подсчета их количества.
-$anomaly_count = 0;
+$anomalies = array(); // массив для 100%-ых сигналов (аномалек), точнее для подсчета их количества.
+$anomalies_count = 0;
 
 $signatures = array();
 $signatures_count = 0;
@@ -25,18 +25,18 @@ foreach ($all_signals as $a_signal)
         case 'Cosmic Anomaly': // is a 100%-by-default signal
         {
             $name = $sig[3];
-            $anomaly[$name]++;
-            $anomaly_count++;
+            $anomalies[$name]++;
         };break;
         case 'Cosmic Signature':// is scannable signal
         {   // необходимо вставить обработку дополнительной информации о сигналах... да, с %, их придется все таки выводить !!!
         $key = $sig[0];
         $power = $sig[4];
         $signatures[$key] = $power;
-        $signatures_count++;
         };break;
     } //case
 }
+$anomalies_count = count($anomalies);
+$signatures_count = count($signatures);
 ksort($signatures); // sort signatures list by alphabet (key sort)
 
 ?>
@@ -65,16 +65,16 @@ Ctrl-A, Ctrl-C... и в окне ниже нажмите: Ctrl-V . Потом н
 </form>
 
 <div id="output">
-<?php if ($anomaly_count) {
+<?php if ($anomalies_count) {
 echo <<<ANOMALIES
 <table border="0">
     <tr>
         <td>Total 100% signals</td>
-        <th width="50" style="color:red">$anomaly_count</th>
+        <th width="50" style="color:red">$anomalies_count</th>
     </tr>
 ANOMALIES;
 
-    foreach ($anomaly as $a_name=>$a_count)
+    foreach ($anomalies as $a_name=>$a_count)
         echo "<tr><td>$a_name</td><th> $a_count </th></tr>";
     echo '</table>';
 }
@@ -85,8 +85,8 @@ if ($signatures_count)
     echo 'Total signatures: <span style="color:red">'.$signatures_count.'</span><br>';
 
     foreach ($signatures as $a_signal=>$a_power)
-        echo $a_signal . " : <br>\r\n";
-    // print_r($signatures);
+        echo $a_signal . " [ ". $a_power . " ] : <br>\r\n";
+    print_r($signatures);
 }
 ?>
 </div>
