@@ -37,6 +37,7 @@ foreach ($all_signals as $a_signal)
         };break;
     } //case
 }
+ksort($signals); // sort signatures list by alphabet (key sort)
 
 ?>
 <!DOCTYPE html>
@@ -44,34 +45,50 @@ foreach ($all_signals as $a_signal)
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Parse test</title>
+    <script type="text/javascript">
+        function ClearData()
+        {
+            document.getElementById('example').value='';
+            document.getElementById('output').innerHTML='';
+            // <input type="button" value="Clear data!" onclick="this.form.reset();document.getElementById('example').value='';document.getElementById()">
+        }
+    </script>
 </head>
 <body>
 <small>Запустите бортовой сканер. Киньте пробку (или не кидайте). Нажмите скан. В окне результатов скана нажмите<br>
 Ctrl-A, Ctrl-C... и в окне ниже нажмите: Ctrl-V . Потом нежно нажмите кнопочку "Анализ" и наслаждайтесь. </small>
 <form action="<? echo $SCRIPT_NAME; ?>" method="post">
     <textarea cols="80" rows="9" id="example" name="data"><? echo $data; ?></textarea><br>
-    <input type="button" value="Clear data!" onclick="this.form.reset();document.getElementById('example').value='';">
+    <input type="button" value="Clear data!" onclick="ClearData()">
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <input type="submit" name="parse_wh" value="Анализ">
 </form>
-<?php if (!$anomaly_count) exit; ?>
 
+<div id="output">
+<?php if ($anomaly_count) {
+echo <<<ANOMALIES
 <table border="0">
     <tr>
         <td>Total 100% signals</td>
-        <th width="50" style="color:red"><?php echo $anomaly_count; ?></th>
+        <th width="50" style="color:red">$anomaly_count</th>
     </tr>
-<?php
+ANOMALIES;
+
     foreach ($anomaly as $a_name=>$a_count)
         echo "<tr><td>$a_name</td><th> $a_count </th></tr>";
-?>
-</table>
-<?php
-$ret = '';
-echo '<hr>';
-echo 'Total signatures: <span style="color:red">'.$signals_count.'</span><br>';
-foreach ($signals as $a_signal => $a_power) {
-    $ret.= $a_signal . " [".$a_power."] :  <br>\r\n";
+    echo '</table>';
 }
-print_r($ret);
+
+if ($signals_count)
+{
+    echo '<hr>';
+    echo 'Total signatures: <span style="color:red">'.$signals_count.'</span><br>';
+
+    foreach ($signals as $a_signal=>$a_power)
+        echo $a_signal . " : <br>\r\n";
+print_r($signals);
+}
 ?>
+</div>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Parse test</title>
+</head>
+<body>
+<small>Запустите бортовой сканер. Киньте пробку (или не кидайте). Нажмите скан. В окне результатов скана нажмите<br>
+    Ctrl-A, Ctrl-C... и в окне ниже нажмите: Ctrl-V . Потом нежно нажмите кнопочку "Анализ" и наслаждайтесь. </small>
+    <textarea cols="80" rows="9" id="example"></textarea><br>
+    <input type="button" value="Clear data!" onclick="document.getElementById('example').value='';">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button name="parse_wh" value="Анализ" onclick="parse();return false;">Анализ</button>
+
+
+
+<script type="text/javascript">
+    Object.prototype.length = function () {
+        var i = 0;
+        for (var k in this) {
+            if (this.constructor.prototype[k]) continue;
+            i++;
+        }
+        return i;
+    };
+
+    function parse()
+    {
+        anomaly_count = 0; signals_count = 0;
+
+        data = document.getElementById('example').value;
+        allsignals = data.split("\n");
+
+        all_count = allsignals.length;
+        alert(all_count);
+    }
+
+</script>
+
+</body>
+</html>
