@@ -15,8 +15,8 @@ $all_signals = preg_split('/\\r\\n?|\\n/', $data); // все сигналы в �
 $anomaly = array(); // массив для 100%-ых сигналов (аномалек), точнее для подсчета их количества.
 $anomaly_count = 0;
 
-$signals = array();
-$signals_count = 0;
+$signatures = array();
+$signatures_count = 0;
 
 foreach ($all_signals as $a_signal)
 {
@@ -32,12 +32,12 @@ foreach ($all_signals as $a_signal)
         {
         $key = $sig[0];
         $power = $sig[4];
-        $signals[$key] = $power;
-        $signals_count++;
+        $signatures[$key] = $power;
+        $signatures_count++;
         };break;
     } //case
 }
-ksort($signals); // sort signatures list by alphabet (key sort)
+ksort($signatures); // sort signatures list by alphabet (key sort)
 
 ?>
 <!DOCTYPE html>
@@ -79,14 +79,13 @@ ANOMALIES;
     echo '</table>';
 }
 
-if ($signals_count)
+if ($signatures_count)
 {
     echo '<hr>';
-    echo 'Total signatures: <span style="color:red">'.$signals_count.'</span><br>';
+    echo 'Total signatures: <span style="color:red">'.$signatures_count.'</span><br>';
 
-    foreach ($signals as $a_signal=>$a_power)
+    foreach ($signatures as $a_signal=>$a_power)
         echo $a_signal . " : <br>\r\n";
-print_r($signals);
 }
 ?>
 </div>
