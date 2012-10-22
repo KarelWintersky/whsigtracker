@@ -29,7 +29,7 @@ foreach ($all_signals as $a_signal)
             $anomaly_count++;
         };break;
         case 'Cosmic Signature':// is scannable signal
-        {
+        {   // необходимо вставить обработку дополнительной информации о сигналах... да, с %, их придется все таки выводить !!!
         $key = $sig[0];
         $power = $sig[4];
         $signatures[$key] = $power;
@@ -86,6 +86,7 @@ if ($signatures_count)
 
     foreach ($signatures as $a_signal=>$a_power)
         echo $a_signal . " : <br>\r\n";
+    // print_r($signatures);
 }
 ?>
 </div>
