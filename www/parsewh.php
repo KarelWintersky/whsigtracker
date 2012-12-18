@@ -68,9 +68,18 @@ foreach ($all_signals as $a_signal)
         };break;
         case 'Cosmic Signature':// is scannable signal
         {   // необходимо вставить обработку дополнительной информации о сигналах... да, с %, их придется все таки выводить !!!
-        $key = $sig[ $map['id'] ];
-        $power = $sig[ $map['power'] ];
-        $signatures[$key]['%'] = $power;
+            $key = $sig[ $map['id'] ];
+            $power = $sig[ $map['power'] ];
+            $signatures[$key]['%'] = $power;
+
+            if (strpos($power,'00,00%')) // it is a 100% scanned signal, we can print signal title
+            {
+                // this output form is temporal
+                $signatures[$key]['text'] = $sig[ $map['type'] ].': '.$sig[ $map['name'] ];
+                $signatures[$key]['distance'] = $sig [ $map['distance'] ];
+            } else {
+                $signatures[$key]['text'] = '';
+            }  // We can use ?: construction ($x = (strpos()) ? $sig[...] : ''; , but it is less perspicuous
         };break;
     } //case
 }
@@ -88,7 +97,6 @@ ksort($signatures); // sort signatures list by alphabet (key sort)
         {
             document.getElementById('example').value='';
             document.getElementById('output').innerHTML='';
-            // <input type="button" value="Clear data!" onclick="this.form.reset();document.getElementById('example').value='';document.getElementById()">
         }
     </script>
 </head>
@@ -124,11 +132,11 @@ if ($signatures_count)
 
     foreach ($signatures as $a_signal=>$a_data)
     {
-        echo $a_signal . " [ " . $a_data['%'] . " ] : <br>\r\n";
+        echo $a_signal . " [ " . $a_data['%'] . " ] : ".$a_data['text']."    <br>\r\n";
     }
 }
 print('<pre>');
-   print_r($all_signals);
+   print_r($signatures);
 print('</pre>');
 
 ?>
