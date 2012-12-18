@@ -126,7 +126,6 @@ if ($signatures_count)
 
     foreach ($signatures as $a_signal=>$a_data)
     {
-        //echo $a_signal . " [ " . $a_data['%'] . " ] : ".$a_data['text']."    <br>\r\n";
         echo $a_signal . $a_data['text'] ."<br>\r\n";
     }
 }
