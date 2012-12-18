@@ -23,32 +23,33 @@ foreach ($all_signals as $n => $a_string)
         $longest_string = $a_string;
     }
 }
-print_r($longest_string,TRUE);
-echo '<hr>';
 
-// адаптивный анализатор самой длинной строки (выясняем "разметку" полей)
+// анализатор самой длинной строки (выясняем "разметку" полей)
     {
         $test_data_array = explode("\t",$longest_string);
         foreach ($test_data_array as $field_index => $field_data)
         {
             // проверка на 'id' - он всегда выгдядит как XXX-000
             if (preg_match("/[A-Z]{3}-[0-9]{3}/",$field_data)) $map['id'] = $field_index;
+            else
             // проверка на 'distance' - она всегда содержит 'AU'
             if (strpos($field_data,"AU")) $map['distance'] = $field_index;
+            else
             // проверка на 'group' - всегда содержит cosmic signature или cosmic anomaly
             if (strpos($field_data,"osmic")) $map['group'] = $field_index;
+            else
             // проверка на 'power' - сила сигнала - она всегда содержит ",цифрацифра%"
             if (preg_match("/,[0-9]{2}%/",$field_data)) $map['power'] = $field_index;
+            else
             // проверка на тип сигнала - 'type' - гравик, магнитка, радарка, неизвестно, ладарка
             if (strpos($field_data,'adar')||strpos($field_data,'ravi')||strpos($field_data,'agn')||strpos($field_data,'nkn')) $map['type'] = $field_index;
+            else $map['name'] = $field_index; // I think, it is a signal title!
         }
     }
-print_r($field_data,TRUE);
-echo '<hr>';
-print_r(strpos($field_data,"Cosmic Sig"));
+/* print_r($test_data_array,TRUE);
 echo '<hr>';
 print_r($map,TRUE);
-
+*/
 $anomalies = array(); // массив для 100%-ых сигналов (аномалек), точнее для подсчета их количества.
 $anomalies_count = 0;
 
@@ -58,19 +59,18 @@ $signatures_count = 0;
 foreach ($all_signals as $a_signal)
 {
     $sig = explode("\t",$a_signal);
-    switch ($sig[1]){
+    switch ($sig[ $map['group']  ]){
         case 'Cosmic Anomaly': // is a 100%-by-default signal
         {
-            $name = $sig[3];
+            $name = $sig[ $map['name'] ];
             $anomalies[$name]++;
             $anomalies_count++;
         };break;
         case 'Cosmic Signature':// is scannable signal
         {   // необходимо вставить обработку дополнительной информации о сигналах... да, с %, их придется все таки выводить !!!
-        $key = $sig[0];
-        $power = $sig[4];
+        $key = $sig[ $map['id'] ];
+        $power = $sig[ $map['power'] ];
         $signatures[$key]['%'] = $power;
-        // $signatures[$key][''] =
         };break;
     } //case
 }
@@ -126,7 +126,6 @@ if ($signatures_count)
     {
         echo $a_signal . " [ " . $a_data['%'] . " ] : <br>\r\n";
     }
-        // echo $a_signal . " [ ". $a_power . " ] : <br>\r\n";
 }
 print('<pre>');
    print_r($all_signals);
