@@ -26,16 +26,17 @@ foreach ($all_signals as $a_signal)
         {
             $name = $sig[3];
             $anomalies[$name]++;
+            $anomalies_count++;
         };break;
         case 'Cosmic Signature':// is scannable signal
         {   // необходимо вставить обработку дополнительной информации о сигналах... да, с %, их придется все таки выводить !!!
         $key = $sig[0];
         $power = $sig[4];
-        $signatures[$key] = $power;
+        $signatures[$key]['%'] = $power;
+        // $signatures[$key][''] =
         };break;
     } //case
 }
-$anomalies_count = count($anomalies);
 $signatures_count = count($signatures);
 ksort($signatures); // sort signatures list by alphabet (key sort)
 
@@ -84,10 +85,16 @@ if ($signatures_count)
     echo '<hr>';
     echo 'Total signatures: <span style="color:red">'.$signatures_count.'</span><br>';
 
-    foreach ($signatures as $a_signal=>$a_power)
-        echo $a_signal . " [ ". $a_power . " ] : <br>\r\n";
-    print_r($signatures);
+    foreach ($signatures as $a_signal=>$a_data)
+    {
+        echo $a_signal . " [ " . $a_data['%'] . " ] : <br>\r\n";
+    }
+        // echo $a_signal . " [ ". $a_power . " ] : <br>\r\n";
 }
+print('<pre>');
+   print_r($all_signals);
+print('</pre>');
+
 ?>
 </div>
 </body>
