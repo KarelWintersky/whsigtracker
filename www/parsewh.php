@@ -1,16 +1,53 @@
 <?php
 namespace example;
-/**
- * Created by JetBrains PhpStorm.
- * User: EVE
- * Date: 18.10.12
- * Time: 13:26
- * To change this template use File | Settings | File Templates.
- */
+function print_r($var,$flag=TRUE)
+{
+    $ret = '<pre>';
+    $ret.= \print_r($var,TRUE);
+    $ret.= '</pre>';
+    if ($flag) echo $ret;
+    else return $ret;
+}
 
 $data = (isset($_POST['data'])) ? $_POST['data'] : '';
-$map = array('id', 'scan group', 'group', 'type', 'power', 'distance');
 $all_signals = preg_split('/\\r\\n?|\\n/', $data); // все сигналы в форме асс.массивов
+
+// ищем самую длинную строку
+$longest_string = 0;
+$longest_string_length = 0;
+foreach ($all_signals as $n => $a_string)
+{
+    if (($this_str_len = strlen($all_signals[$n])) > $longest_string_length)
+    {
+        $longest_string_length = $this_str_len;
+        $longest_string = $a_string;
+    }
+}
+print_r($longest_string,TRUE);
+echo '<hr>';
+
+// адаптивный анализатор самой длинной строки (выясняем "разметку" полей)
+    {
+        $test_data_array = explode("\t",$longest_string);
+        foreach ($test_data_array as $field_index => $field_data)
+        {
+            // проверка на 'id' - он всегда выгдядит как XXX-000
+            if (preg_match("/[A-Z]{3}-[0-9]{3}/",$field_data)) $map['id'] = $field_index;
+            // проверка на 'distance' - она всегда содержит 'AU'
+            if (strpos($field_data,"AU")) $map['distance'] = $field_index;
+            // проверка на 'group' - всегда содержит cosmic signature или cosmic anomaly
+            if (strpos($field_data,"osmic")) $map['group'] = $field_index;
+            // проверка на 'power' - сила сигнала - она всегда содержит ",цифрацифра%"
+            if (preg_match("/,[0-9]{2}%/",$field_data)) $map['power'] = $field_index;
+            // проверка на тип сигнала - 'type' - гравик, магнитка, радарка, неизвестно, ладарка
+            if (strpos($field_data,'adar')||strpos($field_data,'ravi')||strpos($field_data,'agn')||strpos($field_data,'nkn')) $map['type'] = $field_index;
+        }
+    }
+print_r($field_data,TRUE);
+echo '<hr>';
+print_r(strpos($field_data,"Cosmic Sig"));
+echo '<hr>';
+print_r($map,TRUE);
 
 $anomalies = array(); // массив для 100%-ых сигналов (аномалек), точнее для подсчета их количества.
 $anomalies_count = 0;
