@@ -46,10 +46,6 @@ foreach ($all_signals as $n => $a_string)
             else $map['name'] = $field_index; // I think, it is a signal title!
         }
     }
-/* print_r($test_data_array,TRUE);
-echo '<hr>';
-print_r($map,TRUE);
-*/
 $anomalies = array(); // массив для 100%-ых сигналов (аномалек), точнее для подсчета их количества.
 $anomalies_count = 0;
 
@@ -70,16 +66,14 @@ foreach ($all_signals as $a_signal)
         {   // необходимо вставить обработку дополнительной информации о сигналах... да, с %, их придется все таки выводить !!!
             $key = $sig[ $map['id'] ];
             $power = $sig[ $map['power'] ];
-            $signatures[$key]['%'] = $power;
+            $signatures[$key]['text'] = " [ ".$power." ] : ";
 
             if (strpos($power,'00,00%')) // it is a 100% scanned signal, we can print signal title
             {
-                // this output form is temporal
-                $signatures[$key]['text'] = $sig[ $map['type'] ].': '.$sig[ $map['name'] ];
-                $signatures[$key]['distance'] = $sig [ $map['distance'] ];
-            } else {
-                $signatures[$key]['text'] = '';
-            }  // We can use ?: construction ($x = (strpos()) ? $sig[...] : ''; , but it is less perspicuous
+                // add data for output message
+                $signatures[$key]['text'] .= ' '.$sig[ $map['type'] ].': '.$sig[ $map['name'] ];
+                $signatures[$key]['text'] .= ' ('.$sig [ $map['distance'] ].')';
+            }
         };break;
     } //case
 }
@@ -132,13 +126,10 @@ if ($signatures_count)
 
     foreach ($signatures as $a_signal=>$a_data)
     {
-        echo $a_signal . " [ " . $a_data['%'] . " ] : ".$a_data['text']."    <br>\r\n";
+        //echo $a_signal . " [ " . $a_data['%'] . " ] : ".$a_data['text']."    <br>\r\n";
+        echo $a_signal . $a_data['text'] ."<br>\r\n";
     }
 }
-print('<pre>');
-   print_r($signatures);
-print('</pre>');
-
 ?>
 </div>
 </body>
