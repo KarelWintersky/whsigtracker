@@ -88,7 +88,7 @@ if (isset($_POST['action:report_error'])&&(trim($_POST['scandata'])!=''))
 {
     // report error, data in scan
     $data = (isset($_POST['scandata'])) ? $_POST['scandata'] : '';
-    $filename = 'wh_report_'.time().'.txt';
+    $filename = 'wh_report_'.time().'.report';
     $handle = fopen($filename,'w');
     fwrite($handle,$data);
     fclose($handle);
