@@ -95,12 +95,12 @@ if (isset($_POST['action:report_error'])&&(trim($_POST['scandata'])!=''))
     $to = 'arris_icq@mail.ru';
     $subj = 'WHSigTracker Error Report: '.time();
     $arr1 = preg_split('/\\r\\n?|\\n/', $data);
-    $ret = [];
+    $ret = array();
     foreach ($arr1 as $index=>$string) {
         $ret [$index] = explode("\t",$string);
     }
     mail($to, $subj,print_r($ret,FALSE));
-    echo '<span style="color:red>">Bugreport sent!</span><br>';
+    echo '<span class="warning">Bugreport sent!</span><br>';
 }
 
 
@@ -109,7 +109,7 @@ if (isset($_POST['action:report_error'])&&(trim($_POST['scandata'])!=''))
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Parse test</title>
+    <title>Parse EVE Signals data</title>
     <script type="text/javascript">
         function ClearData()
         {
@@ -117,17 +117,28 @@ if (isset($_POST['action:report_error'])&&(trim($_POST['scandata'])!=''))
             document.getElementById('output').innerHTML='';
         }
     </script>
+    <style type="text/css" media="screen">
+        td {
+            vertical-align: middle; text-align:center;
+        }
+        .warning { color: red;}
+
+    </style>
 </head>
 <body>
 <small>Запустите бортовой сканер. Киньте пробку (или не кидайте). Нажмите скан. В окне результатов скана нажмите<br>
 Ctrl-A, Ctrl-C... и в окне ниже нажмите: Ctrl-V . Потом нежно нажмите кнопочку "Анализ" и наслаждайтесь. </small>
 <form action="<? echo $SCRIPT_NAME; ?>" method="post" id="input_form">
-    <textarea cols="80" rows="9" id="scandata" name="scandata"><? echo $data; ?></textarea><br>
-    <button name="action:parse_wh" value="1">>>> Анализ</button>
-    <input type="button" value="Clear data!" onclick="ClearData()">
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    
-    <button name="action:report_error" value="1">Report error!</button>
+    <table border="0">
+        <tr>
+            <td rowspan="3">
+                <textarea cols="80" rows="9" id="scandata" name="scandata"><? echo $data; ?></textarea><br>
+            </td>
+            <td><button name="action:parse_wh" value="1"><b> >>> Анализ </b></button></td>
+        </tr>
+        <tr><td><input type="button" value="Clear data!" onclick="ClearData()"></td></tr>
+        <tr><td><button name="action:report_error" value="1">Report error!</button></td></tr>
+    </table>
 </form>
 
 
