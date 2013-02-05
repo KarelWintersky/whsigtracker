@@ -76,7 +76,7 @@ function parser_roids($data)
     {
         $roid_data = explode("\t",$roid_str);
         $key = $roid_data[0];
-        $count = str_replace(',','',$roid_data[1]); // 1 - counnt
+        $count = str_replace(' ','',$roid_data[1]); // 1 - count
         $roids[$key] += (int)$count; // count
         // remove "," from number - http://www.cyberforum.ru/php-beginners/thread435327.html
     }

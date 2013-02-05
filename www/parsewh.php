@@ -88,11 +88,19 @@ if (isset($_POST['action:report_error'])&&(trim($_POST['scandata'])!=''))
 {
     // report error, data in scan
     $data = (isset($_POST['scandata'])) ? $_POST['scandata'] : '';
-    $filename = 'wh_report_'.time().'.report';
-    $handle = fopen($filename,'w');
-    fwrite($handle,$data);
-    fclose($handle);
-    echo '<span style="color:red>">Bugreport saved</span><br>';
+//    $filename = 'wh_report_'.time().'.report';
+//    $handle = fopen($filename,'w');
+//    fwrite($handle,$data);
+//    fclose($handle);
+    $to = 'arris_icq@mail.ru';
+    $subj = 'WHSigTracker Error Report: '.time();
+    $arr1 = preg_split('/\\r\\n?|\\n/', $data);
+    $ret = [];
+    foreach ($arr1 as $index=>$string) {
+        $ret [$index] = explode("\t",$string);
+    }
+    mail($to, $subj,print_r($ret,FALSE));
+    echo '<span style="color:red>">Bugreport sent!</span><br>';
 }
 
 
@@ -115,11 +123,11 @@ if (isset($_POST['action:report_error'])&&(trim($_POST['scandata'])!=''))
 Ctrl-A, Ctrl-C... и в окне ниже нажмите: Ctrl-V . Потом нежно нажмите кнопочку "Анализ" и наслаждайтесь. </small>
 <form action="<? echo $SCRIPT_NAME; ?>" method="post" id="input_form">
     <textarea cols="80" rows="9" id="scandata" name="scandata"><? echo $data; ?></textarea><br>
-
+    <button name="action:parse_wh" value="1">>>> Анализ</button>
     <input type="button" value="Clear data!" onclick="ClearData()">
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <button name="action:parse_wh">Анализ</button>
-    <button name="action:report_error">Report error!</button>
+    
+    <button name="action:report_error" value="1">Report error!</button>
 </form>
 
 
